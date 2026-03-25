@@ -1,0 +1,864 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Фаренгейт - Личный кабинет</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        /* Стили для страницы регистрации */
+        .auth-container {
+            background-color: #fff0f5;
+            padding: 30px;
+            border-radius: 15px;
+            border: 3px solid #ffb6c1;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(255, 105, 180, 0.2);
+        }
+        
+        .auth-tabs {
+            display: flex;
+            margin-bottom: 25px;
+            border-bottom: 2px solid #ffb6c1;
+        }
+        
+        .auth-tab {
+            flex: 1;
+            text-align: center;
+            padding: 12px;
+            background-color: #ffe4e1;
+            cursor: pointer;
+            font-weight: bold;
+            border-radius: 10px 10px 0 0;
+            border: 2px solid #ffb6c1;
+            border-bottom: none;
+            margin-right: 5px;
+        }
+        
+        .auth-tab.active {
+            background-color: #ff69b4;
+            color: white;
+            border-color: #ff1493;
+        }
+        
+        .auth-tab:last-child {
+            margin-right: 0;
+        }
+        
+        .auth-form {
+            display: none;
+        }
+        
+        .auth-form.active {
+            display: block;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .form-group input[type="text"],
+        .form-group input[type="email"],
+        .form-group input[type="password"],
+        .form-group input[type="tel"],
+        .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ffb6c1;
+            border-radius: 8px;
+            font-size: 16px;
+            box-sizing: border-box;
+            transition: all 0.3s;
+        }
+        
+        .form-group input:focus,
+        .form-group select:focus {
+            border-color: #ff69b4;
+            outline: none;
+            box-shadow: 0 0 8px #ff69b4;
+        }
+        
+        .radio-group {
+            background-color: #ffe4e1;
+            padding: 15px;
+            border-radius: 10px;
+            border: 2px solid #ffb6c1;
+            margin-bottom: 20px;
+        }
+        
+        .radio-group label {
+            display: block;
+            margin: 10px 0;
+            font-weight: normal;
+            cursor: pointer;
+        }
+        
+        .radio-group input[type="radio"] {
+            margin-right: 10px;
+            accent-color: #ff69b4;
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+        
+        .checkbox-group {
+            background-color: #ffe4e1;
+            padding: 15px;
+            border-radius: 10px;
+            border: 2px solid #ffb6c1;
+            margin-bottom: 20px;
+        }
+        
+        .checkbox-group label {
+            display: block;
+            margin: 10px 0;
+            font-weight: normal;
+            cursor: pointer;
+        }
+        
+        .checkbox-group input[type="checkbox"] {
+            margin-right: 10px;
+            accent-color: #ff69b4;
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+        
+        .auth-button {
+            background-color: #ff69b4;
+            color: white;
+            padding: 15px 30px;
+            font-size: 18px;
+            font-weight: bold;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.3s;
+            border: 2px solid #ff1493;
+        }
+        
+        .auth-button:hover {
+            background-color: #ff1493;
+            transform: scale(1.02);
+            box-shadow: 0 5px 15px rgba(255, 20, 147, 0.3);
+        }
+        
+        .auth-links {
+            text-align: center;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 2px solid #ffb6c1;
+        }
+        
+        .auth-links a {
+            color: #ff69b4;
+            text-decoration: none;
+            margin: 0 10px;
+            font-weight: bold;
+        }
+        
+        .auth-links a:hover {
+            color: #ff1493;
+            text-decoration: underline;
+        }
+        
+        .error-message {
+            color: #ff1493;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+        
+        .success-message {
+            background-color: #4CAF50;
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            text-align: center;
+            font-weight: bold;
+        }
+        
+        .required:after {
+            content: " *";
+            color: #ff1493;
+            font-weight: bold;
+        }
+        
+        .divider {
+            display: flex;
+            align-items: center;
+            text-align: center;
+            margin: 20px 0;
+        }
+        
+        .divider::before,
+        .divider::after {
+            content: '';
+            flex: 1;
+            border-bottom: 2px solid #ffb6c1;
+        }
+        
+        .divider span {
+            padding: 0 10px;
+            color: #ff69b4;
+            font-weight: bold;
+        }
+        
+        /* Стили для профиля пользователя */
+        .profile-card {
+            background-color: #fff0f5;
+            padding: 25px;
+            border-radius: 15px;
+            border: 3px solid #ff69b4;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .profile-avatar {
+            width: 100px;
+            height: 100px;
+            background-color: #ffb6c1;
+            border-radius: 50%;
+            margin: 0 auto 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            color: white;
+            border: 3px solid #ff69b4;
+        }
+        
+        .profile-name {
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 5px;
+        }
+        
+        .profile-email {
+            color: #ff69b4;
+            margin-bottom: 15px;
+        }
+        
+        .profile-type {
+            background-color: #ffe4e1;
+            padding: 8px 15px;
+            border-radius: 20px;
+            display: inline-block;
+            margin-bottom: 15px;
+        }
+        
+        .profile-stats {
+            display: flex;
+            justify-content: space-around;
+            margin: 20px 0;
+            padding: 15px 0;
+            border-top: 2px solid #ffb6c1;
+            border-bottom: 2px solid #ffb6c1;
+        }
+        
+        .profile-stat {
+            text-align: center;
+        }
+        
+        .profile-stat-value {
+            font-size: 22px;
+            font-weight: bold;
+            color: #ff69b4;
+        }
+        
+        .profile-stat-label {
+            font-size: 12px;
+            color: #666;
+        }
+        
+        .logout-btn {
+            background-color: #ffe4e1;
+            color: #333;
+            border: 2px solid #ff69b4;
+            padding: 8px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        
+        .logout-btn:hover {
+            background-color: #ff69b4;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+
+    <!-- ШАПКА (HEADER) - она будет меняться в зависимости от того, залогинен пользователь или нет -->
+    <div class="header" id="header">
+        <!-- Сюда будет подставляться либо форма входа, либо профиль -->
+    </div>
+
+    <!-- МЕНЮ САЙТА -->
+    <div class="navbar">
+        <a href="index.html">Главная</a>
+        <a href="catalog.html">Каталог</a>
+        <a href="contacts.html">Контакты</a>
+        <a href="guestbook.php">Гостевая</a>
+        <a href="search_form.php">Поиск</a>
+        <div class="search-bar">
+            <input type="text" placeholder="поиск...">
+            <button>искать</button>
+        </div>
+    </div>
+    <hr>
+
+    <!-- ОСНОВНОЙ КОНТЕНТ (три колонки) -->
+    <div class="content">
+        <!-- Левая колонка (меню) -->
+        <div class="sidebar" id="sidebar">
+            <!-- Сюда будет подставляться меню в зависимости от статуса -->
+        </div>
+
+        <!-- Центральная колонка -->
+        <div class="main-content" id="main-content">
+            <!-- Сюда будет подставляться либо форма, либо профиль -->
+        </div>
+
+        <!-- Правая колонка (баннеры) -->
+        <div class="right-banners">
+            <h3 style="margin-top:0;">🎁 Бонусы</h3>
+            <div style="background:#ffb6c1;">
+                <strong>Скидка 5%</strong><br>
+                На первую покупку
+            </div>
+            
+            <div style="background:#ff69b4; color:white;">
+                <strong>Кэшбэк 3%</strong><br>
+                За все покупки
+            </div>
+            
+            <div style="background:#ffe4e1;">
+                <strong>Подарки</strong><br>
+                При каждом заказе
+            </div>
+            
+            <div style="background:#ffb6c1;">
+                <strong>Доставка 0₽</strong><br>
+                От 30 000 рублей
+            </div>
+        </div>
+    </div>
+    <hr>
+
+    <!-- ПОДВАЛ (FOOTER) -->
+    <div class="footer">
+        <p>&copy; 2024 Фаренгейт - интернет-магазин инженерной сантехники. Все права защищены.</p>
+        <p style="font-size:12px;">
+            <a href="index.html" style="color:#ffb6c1;">Главная</a> | 
+            <a href="catalog.html" style="color:#ffb6c1;">Каталог</a> | 
+            <a href="contacts.html" style="color:#ffb6c1;">Контакты</a> |
+            <a href="login.html" style="color:#ffb6c1;" id="profile-link">Личный кабинет</a>
+        </p>
+    </div>
+
+</div>
+
+<!-- JavaScript для управления состоянием пользователя -->
+<script>
+    // Ключ для хранения данных в localStorage
+    const STORAGE_KEY = 'fahrenheit_user';
+    
+    // Данные пользователя по умолчанию (для демо)
+    const DEMO_USER = {
+        name: 'Анна Петрова',
+        email: 'anna@example.ru',
+        type: 'physical',
+        phone: '+7 (999) 123-45-67',
+        city: 'Москва',
+        registered: '15.03.2024',
+        orders: 3,
+        bonuses: 1250
+    };
+    
+    // Загружаем пользователя при старте
+    let currentUser = null;
+    
+    function loadUser() {
+        const saved = localStorage.getItem(STORAGE_KEY);
+        if (saved) {
+            try {
+                currentUser = JSON.parse(saved);
+            } catch (e) {
+                currentUser = null;
+            }
+        }
+        updateUI();
+    }
+    
+    // Сохраняем пользователя
+    function saveUser(user) {
+        currentUser = user;
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(user));
+        updateUI();
+    }
+    
+    // Выход из аккаунта
+    function logout() {
+        currentUser = null;
+        localStorage.removeItem(STORAGE_KEY);
+        updateUI();
+        // Показываем форму входа
+        showLoginForm();
+    }
+    
+    // Обновляем весь интерфейс в зависимости от статуса
+    function updateUI() {
+        updateHeader();
+        updateSidebar();
+        updateMainContent();
+        updateProfileLink();
+    }
+    
+    // Обновляем шапку
+    function updateHeader() {
+        const header = document.getElementById('header');
+        
+        if (currentUser) {
+            // Пользователь залогинен - показываем профиль в шапке
+            header.innerHTML = `
+                <div class="logo">
+    <img src="images/main.jpg" alt="Фаренгейт" width="50" height="50" style="border-radius: 10px; margin-right: 10px;">
+</div>
+                <h1 class="company-name">Фаренгейт</h1>
+                <div style="display:flex; align-items:center; gap:15px; background:white; padding:8px 15px; border-radius:30px;">
+                    <span style="color:#ff69b4; font-weight:bold;">👤 ${currentUser.name}</span>
+                    <span style="color:#333;">🎁 ${currentUser.bonuses || 0} бонусов</span>
+                    <button onclick="logout()" style="background:#ff69b4; color:white; border:none; padding:5px 10px; border-radius:5px; cursor:pointer;">Выйти</button>
+                </div>
+            `;
+        } else {
+            // Пользователь не залогинен - показываем форму входа
+            header.innerHTML = `
+                <div class="logo">
+    <img src="images/main.jpg" alt="Фаренгейт" width="50" height="50" style="border-radius: 10px; margin-right: 10px;">
+</div>
+                <h1 class="company-name">Фаренгейт</h1>
+                <div class="login-form">
+                    <input type="text" placeholder="логин" id="quick-login">
+                    <input type="password" placeholder="пароль" id="quick-password">
+                    <div>
+                        <button onclick="quickLogin()">войти</button>
+                        <a href="#" onclick="showRegisterForm(); return false;">регистрация</a>
+                    </div>
+                </div>
+            `;
+        }
+    }
+    
+    // Обновляем боковое меню
+    function updateSidebar() {
+        const sidebar = document.getElementById('sidebar');
+        
+        if (currentUser) {
+            sidebar.innerHTML = `
+                <h3 style="margin-top:0; text-align:center;">👤 Мой кабинет</h3>
+                <a href="#" onclick="showProfile(); return false;">Мой профиль</a>
+                <a href="#" onclick="showOrders(); return false;">Мои заказы (${currentUser.orders || 0})</a>
+                <a href="#" onclick="showFavorites(); return false;">Избранное</a>
+                <a href="#" onclick="showBonuses(); return false;">Бонусы (${currentUser.bonuses || 0})</a>
+                <a href="#" onclick="showSettings(); return false;">Настройки</a>
+                <hr style="border-color:#ff69b4;">
+                <h4 style="text-align:center;">${currentUser.name}</h4>
+                <p style="text-align:center; font-size:12px;">${currentUser.email}</p>
+            `;
+        } else {
+            sidebar.innerHTML = `
+                <h3 style="margin-top:0; text-align:center;">👤 Личный кабинет</h3>
+                <a href="#" onclick="showLoginForm(); return false;">🔑 Вход</a>
+                <a href="#" onclick="showRegisterForm(); return false;">📝 Регистрация</a>
+                <a href="#" onclick="showRecovery(); return false;">❓ Восстановление пароля</a>
+                <hr style="border-color:#ff69b4;">
+                <h4 style="text-align:center;">Преимущества</h4>
+                <p style="text-align:center; font-size:14px;">
+                    🎁 Скидка 5% на первый заказ<br>
+                    📦 Бесплатная доставка<br>
+                    💳 Оплата онлайн
+                </p>
+            `;
+        }
+    }
+    
+    // Обновляем основной контент
+    function updateMainContent() {
+        const main = document.getElementById('main-content');
+        
+        if (currentUser) {
+            // Показываем профиль пользователя
+            main.innerHTML = getProfileHTML(currentUser);
+        } else {
+            // Показываем форму входа
+            main.innerHTML = getLoginFormHTML();
+        }
+    }
+    
+    // HTML для профиля пользователя
+    function getProfileHTML(user) {
+        return `
+            <h1>Личный кабинет</h1>
+            <hr>
+            
+            <div class="profile-card">
+                <div class="profile-avatar">
+                    ${user.name.charAt(0)}
+                </div>
+                <div class="profile-name">${user.name}</div>
+                <div class="profile-email">${user.email}</div>
+                <div class="profile-type">
+                    ${user.type === 'physical' ? '👤 Физическое лицо' : '🏢 Юридическое лицо'}
+                </div>
+                
+                <div class="profile-stats">
+                    <div class="profile-stat">
+                        <div class="profile-stat-value">${user.orders || 0}</div>
+                        <div class="profile-stat-label">Заказов</div>
+                    </div>
+                    <div class="profile-stat">
+                        <div class="profile-stat-value">${user.bonuses || 0}</div>
+                        <div class="profile-stat-label">Бонусов</div>
+                    </div>
+                    <div class="profile-stat">
+                        <div class="profile-stat-value">${user.registered || 'Сегодня'}</div>
+                        <div class="profile-stat-label">На сайте</div>
+                    </div>
+                </div>
+                
+                <div style="text-align:left; padding:15px; background:#ffe4e1; border-radius:10px; margin:15px 0;">
+                    <p><strong>📞 Телефон:</strong> ${user.phone || 'Не указан'}</p>
+                    <p><strong>🏙 Город:</strong> ${user.city || 'Не указан'}</p>
+                </div>
+                
+                <div style="display:flex; gap:10px; justify-content:center;">
+                    <button class="logout-btn" onclick="logout()">🚪 Выйти</button>
+                    <button class="logout-btn" style="background:#ff69b4; color:white;" onclick="alert('Редактирование профиля')">✏ Редактировать</button>
+                </div>
+            </div>
+            
+            <div style="background:#fff0f5; padding:20px; border-radius:10px; margin-top:20px;">
+                <h3 style="color:#ff69b4;">📋 Последние заказы</h3>
+                <p>У вас пока нет заказов. <a href="catalog.html" style="color:#ff69b4;">Перейти в каталог</a></p>
+            </div>
+        `;
+    }
+    
+    // HTML для формы входа
+    function getLoginFormHTML() {
+        return `
+            <h1>Вход в личный кабинет</h1>
+            <hr>
+            
+            <div class="auth-tabs">
+                <div class="auth-tab active" onclick="showLoginForm()">🔑 Вход</div>
+                <div class="auth-tab" onclick="showRegisterForm()">📝 Регистрация</div>
+            </div>
+            
+            <div class="auth-container">
+                <div class="form-group">
+                    <label for="login-email" class="required">Email:</label>
+                    <input type="email" id="login-email" placeholder="example@mail.ru" value="anna@example.ru">
+                </div>
+                
+                <div class="form-group">
+                    <label for="login-password" class="required">Пароль:</label>
+                    <input type="password" id="login-password" placeholder="••••••••" value="123456">
+                </div>
+                
+                <div class="checkbox-group" style="margin-bottom:10px;">
+                    <label>
+                        <input type="checkbox" checked> Запомнить меня
+                    </label>
+                </div>
+                
+                <button class="auth-button" onclick="handleLogin()">🔓 Войти</button>
+                
+                <div class="auth-links">
+                    <a href="#" onclick="showRecovery(); return false;">Забыли пароль?</a>
+                    <a href="#" onclick="showRegisterForm(); return false;">Регистрация</a>
+                </div>
+                
+                <div class="divider">
+                    <span>ИЛИ</span>
+                </div>
+                
+                <div style="display:flex; gap:10px;">
+                    <button style="flex:1; background:#3b5998; color:white; padding:10px; border:none; border-radius:5px;">Facebook</button>
+                    <button style="flex:1; background:#dd4b39; color:white; padding:10px; border:none; border-radius:5px;">Google</button>
+                </div>
+                
+                <div style="margin-top:20px; padding:15px; background:#ffe4e1; border-radius:8px;">
+                    <p style="margin:0;"><strong>🎮 Демо-режим:</strong> Нажмите "Войти" для тестового аккаунта</p>
+                </div>
+            </div>
+        `;
+    }
+    
+    // HTML для формы регистрации
+    function getRegisterFormHTML() {
+        return `
+            <h1>Регистрация</h1>
+            <hr>
+            
+            <div class="auth-tabs">
+                <div class="auth-tab" onclick="showLoginForm()">🔑 Вход</div>
+                <div class="auth-tab active" onclick="showRegisterForm()">📝 Регистрация</div>
+            </div>
+            
+            <div class="auth-container">
+                <h2 style="color:#ff69b4; margin-top:0;">Новый пользователь</h2>
+                
+                <div class="radio-group">
+                    <label style="font-weight:bold; margin-bottom:10px;">Выберите тип:</label>
+                    <label>
+                        <input type="radio" name="user_type" value="physical" checked> 👤 Физическое лицо
+                    </label>
+                    <label>
+                        <input type="radio" name="user_type" value="legal"> 🏢 Юридическое лицо
+                    </label>
+                </div>
+                
+                <div class="form-group">
+                    <label for="reg-name" class="required">Имя:</label>
+                    <input type="text" id="reg-name" placeholder="Иван">
+                </div>
+                
+                <div class="form-group">
+                    <label for="reg-email" class="required">Email:</label>
+                    <input type="email" id="reg-email" placeholder="ivan@example.ru">
+                </div>
+                
+                <div class="form-group">
+                    <label for="reg-phone">Телефон:</label>
+                    <input type="tel" id="reg-phone" placeholder="+7 (___) ___-__-__">
+                </div>
+                
+                <div class="form-group">
+                    <label for="reg-password" class="required">Пароль:</label>
+                    <input type="password" id="reg-password" placeholder="минимум 6 символов">
+                </div>
+                
+                <div class="form-group">
+                    <label for="reg-password2" class="required">Подтверждение пароля:</label>
+                    <input type="password" id="reg-password2" placeholder="повторите пароль">
+                </div>
+                
+                <div id="company-field" style="display:none;">
+                    <div class="form-group">
+                        <label for="reg-company">Название организации:</label>
+                        <input type="text" id="reg-company" placeholder="ООО 'Компания'">
+                    </div>
+                    <div class="form-group">
+                        <label for="reg-inn">ИНН:</label>
+                        <input type="text" id="reg-inn" placeholder="1234567890">
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="reg-city">Город:</label>
+                    <select id="reg-city">
+                        <option value="Москва">Москва</option>
+                        <option value="Санкт-Петербург">Санкт-Петербург</option>
+                        <option value="Казань">Казань</option>
+                        <option value="Нижний Новгород">Нижний Новгород</option>
+                        <option value="Другой">Другой</option>
+                    </select>
+                </div>
+                
+                <div class="checkbox-group">
+                    <label>
+                        <input type="checkbox" name="subscribe" checked> 📧 Подписаться на новости и акции
+                    </label>
+                    <label>
+                        <input type="checkbox" name="agree" required> ✅ Я согласен с условиями обработки данных
+                    </label>
+                </div>
+                
+                <button class="auth-button" onclick="handleRegister()">📝 Зарегистрироваться</button>
+                
+                <div class="auth-links">
+                    Уже есть аккаунт? <a href="#" onclick="showLoginForm(); return false;">Войдите</a>
+                </div>
+            </div>
+        `;
+    }
+    
+    // Показать форму входа
+    function showLoginForm() {
+        document.getElementById('main-content').innerHTML = getLoginFormHTML();
+        updateSidebar();
+    }
+    
+    // Показать форму регистрации
+    function showRegisterForm() {
+        document.getElementById('main-content').innerHTML = getRegisterFormHTML();
+        updateSidebar();
+        
+        // Добавляем обработчик для переключения полей юрлица
+        setTimeout(() => {
+            document.querySelectorAll('input[name="user_type"]').forEach(radio => {
+                radio.addEventListener('change', function() {
+                    const companyField = document.getElementById('company-field');
+                    if (this.value === 'legal') {
+                        companyField.style.display = 'block';
+                    } else {
+                        companyField.style.display = 'none';
+                    }
+                });
+            });
+        }, 100);
+    }
+    
+    // Показать профиль
+    function showProfile() {
+        if (currentUser) {
+            document.getElementById('main-content').innerHTML = getProfileHTML(currentUser);
+        }
+    }
+    
+    // Показать заказы
+    function showOrders() {
+        alert('🛒 Здесь будут ваши заказы');
+    }
+    
+    // Показать избранное
+    function showFavorites() {
+        alert('❤️ Здесь будут избранные товары');
+    }
+    
+    // Показать бонусы
+    function showBonuses() {
+        alert(`🎁 У вас ${currentUser?.bonuses || 0} бонусов`);
+    }
+    
+    // Показать настройки
+    function showSettings() {
+        alert('⚙ Настройки профиля');
+    }
+    
+    // Показать восстановление пароля
+    function showRecovery() {
+        alert('🔐 Функция восстановления пароля');
+    }
+    
+    // Быстрый вход из шапки
+    function quickLogin() {
+        // Используем демо-пользователя для быстрого входа
+        saveUser(DEMO_USER);
+        showProfile();
+    }
+    
+    // Обработка входа
+    function handleLogin() {
+        const email = document.getElementById('login-email')?.value;
+        const password = document.getElementById('login-password')?.value;
+        
+        if (!email || !password) {
+            alert('❌ Пожалуйста, заполните все поля!');
+            return;
+        }
+        
+        // Создаем пользователя на основе введенных данных
+        const user = {
+            ...DEMO_USER,
+            name: email.split('@')[0],
+            email: email
+        };
+        
+        saveUser(user);
+        alert('✅ Вход выполнен! Добро пожаловать!');
+        showProfile();
+    }
+    
+    // Обработка регистрации
+    function handleRegister() {
+        const name = document.getElementById('reg-name')?.value;
+        const email = document.getElementById('reg-email')?.value;
+        const phone = document.getElementById('reg-phone')?.value;
+        const pass = document.getElementById('reg-password')?.value;
+        const pass2 = document.getElementById('reg-password2')?.value;
+        const city = document.getElementById('reg-city')?.value;
+        const userType = document.querySelector('input[name="user_type"]:checked')?.value;
+        const agree = document.querySelector('input[name="agree"]')?.checked;
+        
+        if (!name || !email || !pass || !pass2) {
+            alert('❌ Пожалуйста, заполните все обязательные поля!');
+            return;
+        }
+        
+        if (pass !== pass2) {
+            alert('❌ Пароли не совпадают!');
+            return;
+        }
+        
+        if (pass.length < 6) {
+            alert('❌ Пароль должен быть не менее 6 символов!');
+            return;
+        }
+        
+        if (!agree) {
+            alert('❌ Необходимо согласие на обработку данных!');
+            return;
+        }
+        
+        // Создаем нового пользователя
+        const newUser = {
+            name: name,
+            email: email,
+            phone: phone || 'Не указан',
+            type: userType || 'physical',
+            city: city || 'Не указан',
+            registered: new Date().toLocaleDateString('ru-RU'),
+            orders: 0,
+            bonuses: 500 // Бонус за регистрацию
+        };
+        
+        saveUser(newUser);
+        alert('✅ Регистрация прошла успешно! Добро пожаловать!');
+        showProfile();
+    }
+    
+    // Обновляем ссылку в подвале
+    function updateProfileLink() {
+        const link = document.getElementById('profile-link');
+        if (link) {
+            link.href = 'login.html';
+            link.textContent = currentUser ? '👤 Мой профиль' : '🚪 Личный кабинет';
+        }
+    }
+    
+    // Инициализация при загрузке страницы
+    window.onload = function() {
+        loadUser();
+        
+        // Добавляем обработчики для переключения полей юрлица (если они есть)
+        setTimeout(() => {
+            document.querySelectorAll('input[name="user_type"]').forEach(radio => {
+                radio.addEventListener('change', function() {
+                    const companyField = document.getElementById('company-field');
+                    if (companyField) {
+                        if (this.value === 'legal') {
+                            companyField.style.display = 'block';
+                        } else {
+                            companyField.style.display = 'none';
+                        }
+                    }
+                });
+            });
+        }, 500);
+    };
+</script>
+</body>
+</html>

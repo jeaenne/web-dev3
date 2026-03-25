@@ -1,0 +1,242 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+}
+
+/* Основной контейнер */
+.container {
+    width: 1000px;
+    margin: 0 auto;
+    background-color: white;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+/* Шапка (Header) - МЕНЯЕМ ЦВЕТ ЗДЕСЬ */
+.header {
+    background-color: #ffb6c1; /* Светло-розовый (Light Pink) */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 20px;
+}
+
+.logo {
+    font-weight: bold;
+    font-size: 24px;
+    color: #333; /* Цвет текста можно оставить или тоже изменить */
+}
+
+.company-name {
+    font-size: 28px;
+    font-weight: bold;
+    margin: 0;
+    color: #333;
+}
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.login-form input, .login-form button {
+    padding: 5px;
+}
+
+.login-form a {
+    color: #333; /* Ссылка "регистрация" */
+    text-decoration: none;
+    font-size: 12px;
+}
+
+.login-form a:hover {
+    color: #ff69b4; /* Более яркий розовый при наведении */
+}
+
+/* Навигационное меню */
+.navbar {
+    background-color: #333;
+    padding: 10px 0;
+    text-align: center;
+}
+
+.navbar a {
+    color: white;
+    text-decoration: none;
+    padding: 10px 20px;
+    margin: 0 5px;
+}
+
+.navbar a:hover {
+    background-color: #ffb6c1; /* Светло-розовый при наведении */
+    color: #333;
+}
+
+/* Строка поиска */
+.search-bar {
+    display: inline-block;
+    margin-left: 20px;
+}
+
+.search-bar input, .search-bar button {
+    padding: 5px;
+}
+
+.search-bar button {
+    background-color: #ffb6c1; /* Розовая кнопка поиска */
+    border: 1px solid #ff69b4;
+    cursor: pointer;
+}
+
+.search-bar button:hover {
+    background-color: #ff69b4; /* Более яркий розовый */
+    color: white;
+}
+
+/* Основной контент - три колонки */
+.content {
+    display: flex;
+    padding: 20px;
+}
+
+/* Левая колонка (сайдбар) - МЕНЯЕМ ЦВЕТ ЗДЕСЬ */
+.sidebar {
+    width: 180px;
+    background-color: #ffe4e1; /* Очень светло-розовый (Misty Rose) */
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.sidebar a {
+    display: block;
+    color: #333;
+    text-decoration: none;
+    padding: 8px;
+    margin-bottom: 5px;
+    background-color: rgba(255, 182, 193, 0.3); /* Полупрозрачный розовый */
+    border-radius: 3px;
+}
+
+.sidebar a:hover {
+    background-color: #ffb6c1; /* Светло-розовый при наведении */
+    font-weight: bold;
+}
+
+/* Центральная колонка */
+.main-content {
+    flex: 1;
+    padding: 0 20px;
+}
+
+/* Правая колонка (баннеры) - МЕНЯЕМ ЦВЕТ ЗДЕСЬ */
+.right-banners {
+    width: 200px;
+    background-color: #ffe4e1; /* Очень светло-розовый */
+    padding: 10px;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.right-banners div {
+    background-color: #ffb6c1; /* Светло-розовый для баннеров */
+    margin-bottom: 15px;
+    padding: 15px 5px;
+    border-radius: 5px;
+    color: #333;
+    font-weight: bold;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+/* Горизонтальная черта - МЕНЯЕМ ЦВЕТ ЗДЕСЬ */
+hr {
+    border: 1px solid #ffb6c1; /* Светло-розовая линия */
+    margin: 5px 0;
+}
+
+/* Подвал (Footer) */
+.footer {
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 15px;
+    margin-top: 20px;
+    clear: both;
+}
+
+/* Стили для товаров в каталоге (если нужны) */
+.product-item {
+    display: inline-block;
+    width: 45%;
+    margin: 10px 2%;
+    text-align: center;
+    vertical-align: top;
+    background-color: #fff0f5; /* Lavender Blush - очень бледно-розовый */
+    padding: 15px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    border: 1px solid #ffb6c1;
+}
+
+.product-item img {
+    border: 2px solid #ffb6c1; /* Розовая рамка у картинок */
+    border-radius: 5px;
+    transition: transform 0.3s;
+}
+
+.product-item img:hover {
+    transform: scale(1.05);
+    border-color: #ff69b4; /* Ярко-розовый при наведении */
+}
+
+.product-item a {
+    display: block;
+    margin-top: 10px;
+    color: #333;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.product-item a:hover {
+    color: #ff69b4; /* Ярко-розовый для ссылок */
+}
+
+/* Цена товара */
+.product-item p {
+    color: #ff69b4 !important; /* Ярко-розовый для цены */
+    font-weight: bold;
+}
+
+/* Кнопки */
+button, input[type="submit"] {
+    background-color: #ffb6c1;
+    border: 1px solid #ff69b4;
+    color: #333;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 3px;
+}
+
+button:hover, input[type="submit"]:hover {
+    background-color: #ff69b4;
+    color: white;
+}
+
+/* Ссылки */
+a {
+    color: #ff69b4; /* Ярко-розовые ссылки */
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+    color: #ff1493; /* Deep Pink */
+}
+
+/* Заголовки */
+h1, h2, h3 {
+    color: #333;
+    border-bottom: 2px solid #ffb6c1; /* Розовое подчеркивание */
+    padding-bottom: 5px;
+}
