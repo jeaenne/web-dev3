@@ -250,24 +250,21 @@
     </div>
 
     <div class="navbar">
-        <a href="index.html">Главная</a>
-        <a href="catalog.html">Каталог</a>
-        <a href="contacts.html">Контакты</a>
+        <a href="index.php">Главная</a>
+        <a href="catalog.php">Каталог</a>
+        <a href="contacts.php">Контакты</a>
         <a href="guestbook.php">Гостевая</a>
         <a href="search_form.php">Поиск</a>
-        <div class="search-bar">
-            <input type="text" placeholder="поиск...">
-            <button>искать</button>
-        </div>
+        
     </div>
     <hr>
 
     <div class="content">
         <div class="sidebar">
             <h3 style="margin-top:0; text-align:center;">💼 Карьера</h3>
-            <a href="history.html">История фирмы</a>
-            <a href="employees.html">Сотрудники</a>
-            <a href="vacancies.html" style="background-color:#ff69b4; color:white;">Вакансии</a>
+            <a href="history.php">История фирмы</a>
+            <a href="employees.php">Сотрудники</a>
+            <a href="vacancies.php" style="background-color:#ff69b4; color:white;">Вакансии</a>
             
             <!-- ВНУТРЕННЯЯ НАВИГАЦИЯ ПО СТРАНИЦЕ -->
             <hr>

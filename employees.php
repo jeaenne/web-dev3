@@ -162,30 +162,27 @@
             <input type="password" placeholder="пароль">
             <div>
                 <button>войти</button>
-                <a href="login.html">регистрация</a>
+                <a href="login.php">регистрация</a>
             </div>
         </div>
     </div>
 
     <div class="navbar">
-        <a href="index.html">Главная</a>
-        <a href="catalog.html">Каталог</a>
-        <a href="contacts.html">Контакты</a>
+        <a href="index.php">Главная</a>
+        <a href="catalog.php">Каталог</a>
+        <a href="contacts.php">Контакты</a>
         <a href="guestbook.php">Гостевая</a>
-        <a href="search_form.php">Поиск</a>
-        <div class="search-bar">
-            <input type="text" placeholder="поиск...">
-            <button>искать</button>
-        </div>
+        <a href="search.php">Поиск</a>
+        
     </div>
     <hr>
 
     <div class="content">
         <div class="sidebar">
             <h3 style="margin-top:0; text-align:center;">👥 Команда</h3>
-            <a href="history.html">История фирмы</a>
-            <a href="employees.html" style="background-color:#ff69b4; color:white;">Сотрудники</a>
-            <a href="vacancies.html">Вакансии</a>
+            <a href="history.php">История фирмы</a>
+            <a href="employees.php" style="background-color:#ff69b4; color:white;">Сотрудники</a>
+            <a href="vacancies.php">Вакансии</a>
             
             <!-- ВНУТРЕННЯЯ НАВИГАЦИЯ ПО СТРАНИЦЕ -->
             <hr>

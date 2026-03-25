@@ -279,22 +279,19 @@
             <input type="password" placeholder="пароль">
             <div>
                 <button>войти</button>
-                <a href="login.html">регистрация</a>
+                <a href="login.php">регистрация</a>
             </div>
         </div>
     </div>
 
     <!-- МЕНЮ САЙТА -->
     <div class="navbar">
-        <a href="index.html">Главная</a>
-        <a href="catalog.html">Каталог</a>
-        <a href="contacts.html">Контакты</a>
+        <a href="index.php">Главная</a>
+        <a href="catalog.php">Каталог</a>
+        <a href="contacts.php">Контакты</a>
         <a href="guestbook.php">Гостевая</a>
         <a href="search_form.php">Поиск</a>
-        <div class="search-bar">
-            <input type="text" placeholder="поиск...">
-            <button>искать</button>
-        </div>
+        
     </div>
     <hr>
 
@@ -303,9 +300,9 @@
         <!-- Левая колонка (меню) -->
         <div class="sidebar">
             <h3 style="margin-top:0; text-align:center;">📖 О компании</h3>
-            <a href="history.html" style="background-color:#ff69b4; color:white;">История фирмы</a>
-            <a href="employees.html">Сотрудники</a>
-            <a href="vacancies.html">Вакансии</a>
+            <a href="history.php" style="background-color:#ff69b4; color:white;">История фирмы</a>
+            <a href="employees.php">Сотрудники</a>
+            <a href="vacancies.php">Вакансии</a>
             
             <!-- НОВЫЕ ССЫЛКИ (теперь работают!) -->
             <hr>

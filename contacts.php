@@ -1,3 +1,7 @@
+<?php
+session_start();
+$is_logged_in = isset($_SESSION['user_id']);
+?>
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -218,39 +222,43 @@
 
 <div class="container">
 
-    <!-- ШАПКА (HEADER) -->
+    <!-- ШАПКА (HEADER) - ОБНОВЛЕНА -->
     <div class="header">
         <div class="logo">
             <img src="images/main.jpg" alt="Фаренгейт" width="50" height="50" style="border-radius: 10px; margin-right: 10px;">
-            <span> Фаренгейт</span>
+            <span>🔥 Фаренгейт</span>
         </div>
         <div class="login-form">
-            <input type="text" placeholder="логин">
-            <input type="password" placeholder="пароль">
-            <div>
-                <button>войти</button>
-                <a href="login.html">регистрация</a>
-            </div>
+            <?php if ($is_logged_in): ?>
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <span>👤 <?php echo $_SESSION['user_name']; ?></span>
+                    <a href="logout.php" style="color: white; background: #ff69b4; padding: 5px 10px; border-radius: 5px; text-decoration: none;">Выйти</a>
+                </div>
+            <?php else: ?>
+                <input type="text" placeholder="логин" id="quick-login">
+                <input type="password" placeholder="пароль" id="quick-password">
+                <div>
+                    <button onclick="quickLogin()">войти</button>
+                    <a href="login.php">регистрация</a>
+                </div>
+            <?php endif; ?>
         </div>
     </div>
 
     <!-- МЕНЮ САЙТА -->
     <div class="navbar">
-        <a href="index.html">Главная</a>
-        <a href="catalog.html">Каталог</a>
-        <a href="contacts.html">Контакты</a>
+        <a href="index.php">Главная</a>
+        <a href="catalog.php">Каталог</a>
+        <a href="contacts.php">Контакты</a>
         <a href="guestbook.php">Гостевая</a>
-        <a href="search_form.php">Поиск</a>
-        <div class="search-bar">
-            <input type="text" placeholder="поиск...">
-            <button>искать</button>
-        </div>
+        <a href="search.php">Поиск</a>
+        
     </div>
     <hr>
 
     <!-- ОСНОВНОЙ КОНТЕНТ (три колонки) -->
     <div class="content">
-        <!-- Левая колонка (меню) - ТЕПЕРЬ С РАБОЧИМИ ССЫЛКАМИ -->
+        <!-- Левая колонка (меню) -->
         <div class="sidebar">
             <h3 style="margin-top:0; text-align:center;">📞 Связь с нами</h3>
             
@@ -368,9 +376,9 @@
             <!-- СЕКЦИЯ КАРТЫ (с якорем) -->
             <div id="map" class="contact-section">
                 <h3>*Карта проезда</h3>
-<div style="border: 3px solid #ffb6c1; border-radius: 10px; overflow: hidden; margin-top: 20px;">
-    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2250.22052883512!2d37.859103000000005!3d55.667765200000005!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x414ab65d2d965cbb%3A0x5348fff486c8ab17!2z0YPQuy4g0KHRgtGA0L7QuNGC0LXQu9C10LksIDEsINCa0L7RgtC10LvRjNC90LjQutC4LCDQnNC-0YHQutC-0LLRgdC60LDRjyDQvtCx0LsuLCAxNDAwNTQ!5e0!3m2!1sru!2sru!4v1772106015786!5m2!1sru!2sru" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-</div>
+                <div style="border: 3px solid #ffb6c1; border-radius: 10px; overflow: hidden; margin-top: 20px;">
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2250.22052883512!2d37.859103000000005!3d55.667765200000005!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x414ab65d2d965cbb%3A0x5348fff486c8ab17!2z0YPQuy4g0KHRgtGA0L7QuNGC0LXQu9C10LksIDEsINCa0L7RgtC10LvRjNC90LjQutC4LCDQnNC-0YHQutC-0LLRgdC60LDRjyDQvtCx0LsuLCAxNDAwNTQ!5e0!3m2!1sru!2sru!4v1772106015786!5m2!1sru!2sru" width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                </div>
             </div>
         </div>
 
@@ -408,7 +416,7 @@
 
 </div>
 
-<!-- СКРИПТ ДЛЯ ПЛАВНОЙ ПРОКРУТКИ -->
+<!-- СКРИПТ ДЛЯ ПЛАВНОЙ ПРОКРУТКИ И БЫСТРОГО ВХОДА -->
 <script>
     // Плавная прокрутка при клике на якорные ссылки
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -427,6 +435,17 @@
             }
         });
     });
+    
+    // Быстрый вход из шапки
+    function quickLogin() {
+        const email = document.getElementById('quick-login').value;
+        const password = document.getElementById('quick-password').value;
+        if (email && password) {
+            window.location.href = 'login.php?email=' + encodeURIComponent(email) + '&password=' + encodeURIComponent(password);
+        } else {
+            alert('Введите email и пароль');
+        }
+    }
 </script>
 </body>
 </html>

@@ -1,208 +1,96 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <title>Гостевая книга - Фаренгейт</title>
-    <link rel="stylesheet" href="css/style.css">
-    <style>
-        .form-container {
-            background-color: #fff0f5;
-            border: 3px solid #ffb6c1;
-            border-radius: 20px;
-            padding: 30px;
-            margin: 20px 0;
-        }
-        .form-group {
-            margin-bottom: 20px;
-        }
-        .form-group label {
-            font-weight: bold;
-            display: block;
-            margin-bottom: 8px;
-            color: #333;
-        }
-        .form-group input[type="text"],
-        .form-group input[type="email"],
-        .form-group select,
-        .form-group textarea {
-            width: 100%;
-            padding: 10px;
-            border: 2px solid #ffb6c1;
-            border-radius: 8px;
-            font-size: 14px;
-            box-sizing: border-box;
-            font-family: inherit;
-        }
-        .form-group input:focus,
-        .form-group select:focus,
-        .form-group textarea:focus {
-            border-color: #ff69b4;
-            outline: none;
-        }
-        .radio-group {
-            margin: 15px 0;
-        }
-        .radio-group label {
-            display: inline-block;
-            font-weight: normal;
-            margin-right: 20px;
-        }
-        .radio-group input {
-            margin-right: 5px;
-        }
-        .checkbox-group {
-            margin: 15px 0;
-        }
-        .checkbox-group label {
-            font-weight: normal;
-            display: inline-block;
-        }
-        .checkbox-group input {
-            margin-right: 8px;
-        }
-        .submit-btn {
-            background-color: #ff69b4;
-            color: white;
-            padding: 12px 30px;
-            border: none;
-            border-radius: 8px;
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        .submit-btn:hover {
-            background-color: #ff1493;
-            transform: scale(1.02);
-        }
-        .help-text {
-            font-size: 12px;
-            color: #666;
-            margin-top: 5px;
-            display: block;
-        }
-        .form-title {
-            color: #ff69b4;
-            margin-top: 0;
-            margin-bottom: 20px;
-            padding-bottom: 10px;
-            border-bottom: 2px solid #ffb6c1;
-        }
-    </style>
-</head>
-<body>
+<?php
+include 'db_connect.php';
 
-<div class="container">
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit_feedback'])) {
+    $name = $conn->real_escape_string($_POST['name']);
+    $gender = $conn->real_escape_string($_POST['gender'] ?? '');
+    $rating = intval($_POST['rating']);
+    $source = isset($_POST['source']) ? implode(", ", $_POST['source']) : '';
+    $message = $conn->real_escape_string($_POST['message']);
+    
+    $sql = "INSERT INTO feedback (name, gender, rating, source, message) 
+            VALUES ('$name', '$gender', $rating, '$source', '$message')";
+    
+    if ($conn->query($sql)) {
+        $success = "Спасибо за отзыв!";
+    } else {
+        $error = "Ошибка: " . $conn->error;
+    }
+}
 
-    <!-- ШАПКА -->
-    <div class="header">
-        <div class="logo">
-            <img src="images/main.jpg" alt="Фаренгейт" width="50" height="50" style="border-radius: 10px; margin-right: 10px;">
-            <span>Фаренгейт</span>
+$feedbacks = $conn->query("SELECT * FROM feedback ORDER BY created_at DESC");
+?>
+<?php include 'header.php'; ?>
+
+<div class="content">
+    <div class="main-content">
+        <h1>Гостевая книга</h1>
+        <hr>
+
+        <div style="background:#fff0f5; border:3px solid #ffb6c1; border-radius:20px; padding:30px; margin:20px 0;">
+            <h2 style="color:#ff69b4;">📝 Оставить отзыв</h2>
+            <?php if (isset($success)): ?>
+                <div style="background:#e8f5e9; color:#2e7d32; padding:10px; border-radius:5px;">✅ <?php echo $success; ?></div>
+            <?php endif; ?>
+            
+            <form method="post">
+                <div style="margin-bottom:15px;">
+                    <input type="text" name="name" placeholder="Ваше имя" required style="width:100%; padding:10px; border:2px solid #ffb6c1; border-radius:5px;">
+                </div>
+                <div style="margin-bottom:15px;">
+                    <select name="gender" style="width:100%; padding:10px; border:2px solid #ffb6c1; border-radius:5px;">
+                        <option value="">Пол</option>
+                        <option value="Мужской">Мужской</option>
+                        <option value="Женский">Женский</option>
+                    </select>
+                </div>
+                <div style="margin-bottom:15px;">
+                    <select name="rating" style="width:100%; padding:10px; border:2px solid #ffb6c1; border-radius:5px;">
+                        <option value="5">5 ★ Отлично</option>
+                        <option value="4">4 ★ Хорошо</option>
+                        <option value="3">3 ★ Нормально</option>
+                        <option value="2">2 ★ Плохо</option>
+                        <option value="1">1 ★ Ужасно</option>
+                    </select>
+                </div>
+                <div style="margin-bottom:15px;">
+                    <select name="source[]" size="3" multiple style="width:100%; padding:10px; border:2px solid #ffb6c1; border-radius:5px;">
+                        <option>Интернет</option>
+                        <option>Друзья</option>
+                        <option>Реклама</option>
+                        <option>Соцсети</option>
+                    </select>
+                    <small>Зажмите Ctrl, чтобы выбрать несколько</small>
+                </div>
+                <div style="margin-bottom:15px;">
+                    <textarea name="message" rows="5" placeholder="Ваш отзыв..." required style="width:100%; padding:10px; border:2px solid #ffb6c1; border-radius:5px;"></textarea>
+                </div>
+                <button type="submit" name="submit_feedback" style="background:#ff69b4; color:white; padding:10px 20px; border:none; border-radius:5px; cursor:pointer;">✉ Отправить</button>
+            </form>
         </div>
-        <div class="login-form">
-            <input type="text" placeholder="логин">
-            <input type="password" placeholder="пароль">
-            <div>
-                <button>войти</button>
-                <a href="login.html">регистрация</a>
-            </div>
+
+        <div style="background:#fff0f5; border:3px solid #ffb6c1; border-radius:20px; padding:30px; margin:20px 0;">
+            <h2>💬 Отзывы посетителей</h2>
+            <?php if ($feedbacks->num_rows > 0): ?>
+                <?php while($row = $feedbacks->fetch_assoc()): ?>
+                <div style="background:#ffe4e1; padding:15px; margin:15px 0; border-radius:10px;">
+                    <div style="font-weight:bold; color:#ff69b4;"><?php echo htmlspecialchars($row['name']); ?></div>
+                    <div style="font-size:12px; color:#666;"><?php echo $row['created_at']; ?></div>
+                    <div>⭐ Оценка: <?php echo $row['rating']; ?> / 5</div>
+                    <p><?php echo nl2br(htmlspecialchars($row['message'])); ?></p>
+                </div>
+                <?php endwhile; ?>
+            <?php else: ?>
+                <p>Пока нет отзывов. Будьте первым!</p>
+            <?php endif; ?>
         </div>
     </div>
 
-    <!-- МЕНЮ -->
-    <div class="navbar">
-        <a href="index.html">Главная</a>
-        <a href="catalog.html">Каталог</a>
-        <a href="contacts.html">Контакты</a>
-        <a href="guestbook.php">Гостевая</a>
-        <a href="search_form.php">Поиск</a>
-        <div class="search-bar">
-            <input type="text" placeholder="поиск...">
-            <button>искать</button>
-        </div>
+    <div class="right-banners">
+        <div>Акция на котлы!</div>
+        <div>Бесплатная доставка</div>
+        <div>Теплые полы</div>
     </div>
-    <hr>
-
-    <div class="content">
-        <div class="main-content">
-            <h1>Гостевая книга</h1>
-            <hr>
-
-            <div class="form-container">
-                <h2 class="form-title">📝 Оставьте отзыв</h2>
-                <form method="post" action="save_feedback.php">
-
-                    <!-- 1. Однострочное поле -->
-                    <div class="form-group">
-                        <label>Ваше имя:</label>
-                        <input type="text" name="name" required>
-                    </div>
-
-                    <!-- 2. Радио-кнопки -->
-                    <div class="radio-group">
-                        <label>Пол:</label><br>
-                        <label><input type="radio" name="gender" value="Мужской"> Мужской</label>
-                        <label><input type="radio" name="gender" value="Женский"> Женский</label>
-                    </div>
-
-                    <!-- 3. Флажок (чекбокс) -->
-                    <div class="checkbox-group">
-                        <label>
-                            <input type="checkbox" name="subscribe"> Подписаться на новости
-                        </label>
-                    </div>
-
-                    <!-- 4. Раскрывающийся список (оценка) -->
-                    <div class="form-group">
-                        <label>Оценка:</label>
-                        <select name="rating">
-                            <option>1</option>
-                            <option>2</option>
-                            <option>3</option>
-                            <option>4</option>
-                            <option selected>5</option>
-                        </select>
-                    </div>
-
-                    <!-- 5. Прокручивающийся список (множественный выбор) -->
-                    <div class="form-group">
-                        <label>Откуда вы о нас узнали?</label>
-                        <select name="source[]" size="3" multiple style="height: auto;">
-                            <option>Интернет</option>
-                            <option>Друзья</option>
-                            <option>Реклама</option>
-                            <option>Соцсети</option>
-                        </select>
-                        <span class="help-text">📌 Зажмите Ctrl (или Cmd на Mac), чтобы выбрать несколько</span>
-                    </div>
-
-                    <!-- 6. Многострочное поле -->
-                    <div class="form-group">
-                        <label>Ваш отзыв:</label>
-                        <textarea name="message" rows="5" placeholder="Напишите ваше мнение..."></textarea>
-                    </div>
-
-                    <!-- 7. Кнопка отправки -->
-                    <button type="submit" class="submit-btn">✉ Отправить отзыв</button>
-                </form>
-            </div>
-        </div>
-
-        <div class="right-banners">
-            <div>Акция на котлы!</div>
-            <div>Бесплатная доставка</div>
-            <div>Теплые полы</div>
-        </div>
-    </div>
-
-    <hr>
-
-    <div class="footer">
-        <p>&copy; 2024 Фаренгейт. Все права защищены.</p>
-    </div>
-
 </div>
 
-</body>
-</html>
+<?php include 'footer.php'; ?>
